@@ -80,7 +80,7 @@ pipeline {
         sh "git checkout develop"
         echo "checkout master"
         sh "git checkout master"
-        exh "merging develop to master"
+        echo "merging develop to master"
         sh "git merge develop"
         echo "pushing to origin:master"
         sh "git push origin master"
