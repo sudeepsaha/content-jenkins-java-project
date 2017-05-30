@@ -6,8 +6,8 @@ pipeline {
   }
 
   stages{
-    agent any
      stage('Unit Tests') {
+       agent any
       steps {
               sh 'ant -f test.xml -v'
               junit 'reports/result.xml'
