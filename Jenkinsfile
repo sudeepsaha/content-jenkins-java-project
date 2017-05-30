@@ -34,7 +34,7 @@ pipeline {
       }
       steps {
         sh "mkdir -p /var/www/html/rectangles/all/${env.BRANCH_NAME}"
-        sh "cp dist/rectangle_${env.BUILD_NUMBER}.jar /var/www/html/rectangles/all/${env.BRANCH_NAME}/"
+        sh "cp dist/rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar /var/www/html/rectangles/all/${env.BRANCH_NAME}/"
       }
     }
     stage('Running on Centos') {
@@ -42,8 +42,8 @@ pipeline {
         label 'Slave1'
       }
       steps{
-        sh "wget http://192.168.56.100/rectangles/all/${env.BRANCH_NAME}/rectangle_${env.BUILD_NUMBER}.jar"
-        sh "java -jar rectangle_${env.BUILD_NUMBER}.jar 34 43"
+        sh "wget http://192.168.56.100/rectangles/all/${env.BRANCH_NAME}/rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar"
+        sh "java -jar rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar 34 43"
       }
     }
     stage('Running on Debian distro'){
@@ -51,8 +51,8 @@ pipeline {
         docker 'openjdk:8u121-jre'
       }
       steps {
-        sh "wget http://192.168.56.100/rectangles/all/${env.BRANCH_NAME}/rectangle_${env.BUILD_NUMBER}.jar"
-        sh "java -jar rectangle_${env.BUILD_NUMBER}.jar 39 93"
+        sh "wget http://192.168.56.100/rectangles/all/${env.BRANCH_NAME}/rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar"
+        sh "java -jar rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar 39 93"
       }
     }
     stage('Promote to green') {
@@ -63,7 +63,7 @@ pipeline {
         branch 'master'
       }
       steps {
-        sh "cp /var/www/html/rectangles/all/${env.BRANCH_NAME}/rectangle_${env.BUILD_NUMBER}.jar /var/www/html/rectangles/green/rectangle_${env.BUILD_NUMBER}.jar"
+        sh "cp /var/www/html/rectangles/all/${env.BRANCH_NAME}/rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar /var/www/html/rectangles/green/rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar"
       }
     }
     stage('Promote develop to master') {
@@ -84,6 +84,8 @@ pipeline {
         sh "git merge develop"
         echo "pushing to origin:master"
         sh "git push origin master"
+        echo "Tagging release"
+        sh "git tag rectangle-${env.MAJOR_VERSION}.${env.BUILD_NUMBER}"
       }
     }
   }
