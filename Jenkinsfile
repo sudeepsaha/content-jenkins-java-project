@@ -34,10 +34,10 @@ pipeline {
   }
 
   post {
-    agent {
+    success {
+     agent {
         label 'apache'
       }
-    always {
       archiveArtifacts artifacts: 'dist/*.jar', fingerprint: true
     }
   }
