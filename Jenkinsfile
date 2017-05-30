@@ -96,7 +96,7 @@ pipeline {
       post {
         success {
           emailext(
-            subject: "${env.JOB_NAME} [${env.BUILD_NUMBER}] promoted to master!"
+            subject: "${env.JOB_NAME} [${env.BUILD_NUMBER}] promoted to master!",
             body: "<p>Check console output ${env.BUILD_URL}</p>"
             to: "sudeep.ks1987@gmail.com"
           )
@@ -107,7 +107,7 @@ pipeline {
   post {
     failure {
       emailext(
-        subject: "${env.JOB_NAME} [${env.BUILD_NUMBER}] failed!"
+        subject: "${env.JOB_NAME} [${env.BUILD_NUMBER}] failed!",
         body: "<p>Check console output ${env.BUILD_URL}</p>"
         to: "sudeep.ks1987@gmail.com"
       )
