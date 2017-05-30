@@ -15,7 +15,7 @@ pipeline {
     stage('git info') {
       agent any
       steps {
-        echo "My brnach name: ${env.Branch_NAME}"
+        echo "My branch name: ${env.Branch_NAME}"
 
         script {
           def myLib = new linuxacademy.git.gitStuf();
